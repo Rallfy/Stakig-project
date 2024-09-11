@@ -6,20 +6,23 @@ require("dotenv").config();
 const app = express();
 const port = 3000;
 
-// staking contract address !!THIS IS COMMENT FOR THE DEPLOY
-// const stakingContractAddress = process.env.STAKING_CONTRACT_ADDRESS;
+// connect to ethereum through infura
+//const provider = new ethers.JsonRpcProvider(process.env.INFURA_URL);
 
-// load abi of the staking contract 
+// staking contract address
+const stakingContractAddress = process.env.STAKING_CONTRACT_ADDRESS;
+
+// load abi of the staking contract
 // const stakingContractABI = require("../artifacts/contracts/Staking.sol/Staking.json").abi;
 
-// create a contract instance !!THIS IS COMMENT FOR THE DEPLOY
+// create a contract instance
 // const stakingContract = new ethers.Contract(
-//  stakingContractAddress,
-//  stakingContractABI,
-//  provider
+//   stakingContractAddress,
+//   stakingContractABI,
+//   provider
 // );
 
-// test the connection by getting the contract address !!THIS IS COMMENT FOR THE DEPLOY
+// test the connection by getting the contract address
 // app.get("/contract-info", async (req, res) => {
 //   try {
 //     const contractAddress = process.env.STAKING_CONTRACT_ADDRESS;
@@ -30,7 +33,7 @@ const port = 3000;
 //   }
 // });
 
-// get user staking information !!THIS IS COMMENT FOR THE DEPLOY
+// get user staking information
 // app.get("/staking-info/:address", async (req, res) => {
 //   const userAddress = req.params.address;
 //   try {
@@ -53,38 +56,42 @@ const port = 3000;
 // });
 
 // connect to solana mainnet-beta
-const solanaConnection = new Connection(process.env.SOLANA_RPC_URL);
+const solanaConnection = new Connection("https://api.mainnet-beta.solana.com");
 
-// endpoint for Solana SPL Token
+// solana token public key
+const tokenPublicKey = new PublicKey("EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm");
+
+// get total supply of the spl token
 app.get("/solana/token-supply", async (req, res) => {
   try {
-    const mintAddress = new PublicKey(process.env.SOLANA_MINT_ADDRESS);
-    const tokenSupply = await connection.getTokenSupply(mintAddress);
+    const tokenSupply = await solanaConnection.getTokenSupply(tokenPublicKey);
     res.json({ totalSupply: tokenSupply.value.uiAmount });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error fetching token supply");
+    res.status(500).send("error fetching token supply");
   }
 });
 
-// get token balance of a specific Solana wallet
+// get token balance of a specific wallet
 app.get("/solana/token-balance/:address", async (req, res) => {
+  const walletAddress = req.params.address;
   try {
-    const walletAddress = new PublicKey(req.params.address);
-    const mintAddress = new PublicKey(process.env.SOLANA_MINT_ADDRESS);
-    const tokenAccounts = await connection.getParsedTokenAccountsByOwner(
-      walletAddress,
-      { mint: mintAddress }
-    );
-    
-    const tokenBalance = tokenAccounts.value[0].account.data.parsed.info.tokenAmount.uiAmount;
-    res.json({ address: req.params.address, tokenBalance });
+    const walletPublicKey = new PublicKey(walletAddress);
+    const tokenAccounts = await solanaConnection.getTokenAccountsByOwner(walletPublicKey, {
+      mint: tokenPublicKey,
+    });
+
+    if (tokenAccounts.value.length === 0) {
+      res.json({ address: walletAddress, tokenBalance: "0" });
+    } else {
+      const tokenBalance = await solanaConnection.getTokenAccountBalance(tokenAccounts.value[0].pubkey);
+      res.json({ address: walletAddress, tokenBalance: tokenBalance.value.uiAmount });
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error fetching token balance");
+    res.status(500).send("error fetching token balance");
   }
 });
-
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
