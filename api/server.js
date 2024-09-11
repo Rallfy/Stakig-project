@@ -14,7 +14,7 @@ const provider = new ethers.JsonRpcProvider(process.env.INFURA_URL);
 const stakingContractAddress = process.env.STAKING_CONTRACT_ADDRESS;
 
 // load abi of the staking contract
-const stakingContractABI = JSON.parse(fs.readFileSync("api/abis/StakingABI.json", "utf-8")).abi;
+const stakingContractABI = JSON.parse(fs.readFileSync("./abis/StakingABI.json", "utf-8")).abi;
 
 // create a contract instance
 const stakingContract = new ethers.Contract(
