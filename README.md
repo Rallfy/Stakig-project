@@ -21,12 +21,12 @@ The API for interacting with the staking contract and reading SPL Token data:
 **Base Link**: https://stakig-project.onrender.com
 #### API Endpoints:
 - **Staking Contract Info:** `GET /contract-info`\
-https://stakig-project.onrender.com/contract-info\
+https://stakig-project.onrender.com/contract-info
 - **Staking Info for Ethereum Address:** `GET /staking-info/:address`\
-https://stakig-project.onrender.com/staking-info/0x291c6E27105aF9358f8b60F7Bd1A3E5A4610160D\
+https://stakig-project.onrender.com/staking-info/0x291c6E27105aF9358f8b60F7Bd1A3E5A4610160D
 - **Solana Token Supply:** `GET /solana/token-supply`\
-https://stakig-project.onrender.com/solana/token-supply\
+https://stakig-project.onrender.com/solana/token-supply
 - **Solana Token Balance for Wallet:** `GET /solana/token-balance/:address`\
-https://stakig-project.onrender.com/solana/token-balance/EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm\
+https://stakig-project.onrender.com/solana/token-balance/EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm
 
 **Loom video link:**
