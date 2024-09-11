@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // staking contract address !!THIS IS COMMENT FOR THE DEPLOY
-const stakingContractAddress = process.env.STAKING_CONTRACT_ADDRESS;
+// const stakingContractAddress = process.env.STAKING_CONTRACT_ADDRESS;
 
 // load abi of the staking contract 
 // const stakingContractABI = require("../artifacts/contracts/Staking.sol/Staking.json").abi;
