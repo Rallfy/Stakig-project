@@ -2,6 +2,7 @@ const express = require("express");
 const ethers = require("ethers");
 const { Connection, PublicKey } = require("@solana/web3.js");
 require("dotenv").config();
+const fs = require("fs");
 
 const app = express();
 const port = 3000;
