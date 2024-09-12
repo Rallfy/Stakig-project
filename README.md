@@ -29,4 +29,5 @@ https://stakig-project.onrender.com/solana/token-supply
 - **Solana Token Balance for Wallet:** `GET /solana/token-balance/:address`\
 https://stakig-project.onrender.com/solana/token-balance/EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm
 
-**Loom video link:**
+**Loom video tutorial link:**
+https://www.loom.com/share/c5973bbe792b4b90a69a4a6daec039bf?sid=5b2cdabd-c716-43ff-a4ab-8749df6e9b09
